@@ -9,17 +9,18 @@ class Bot extends BaseBot {
             super(postData);
 
             const request = new BaseBot.Request(postData)
+            const user_id = 'dueros_' + request.getUserId()
 
             this.addLaunchHandler(() => {
-                return chatbot.replyToEvent(request.getUserId(), 'open-app')
+                return chatbot.replyToEvent(user_id, 'open-app')
             });
 
             this.addIntentHandler('ai.dueros.common.default_intent', () => {
-                return chatbot.replyToText(request.getUserId(), request.getQuery())
+                return chatbot.replyToText(user_id, request.getQuery())
             });
 
             this.addSessionEndedHandler(() => {
-                return chatbot.replyToEvent(request.getUserId(), 'close-app')
+                return chatbot.replyToEvent(user_id, 'close-app')
             })
     }
     /**
@@ -35,3 +36,5 @@ class Bot extends BaseBot {
         return renderTemplate;
     }
 }
+
+module.exports = Bot
