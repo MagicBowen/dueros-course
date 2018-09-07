@@ -1,4 +1,5 @@
 const BaseBot = require('bot-sdk');
+const chatbot = require('./chatbot');
 
 class Bot extends BaseBot {
     /**
@@ -7,39 +8,19 @@ class Bot extends BaseBot {
     constructor(postData) {
             super(postData);
 
+            const request = new BaseBot.Request(postData)
+
             this.addLaunchHandler(() => {
-                return {
-                    outputSpeech: '欢迎使用!'
-                };
+                return chatbot.replyToEvent(request.getUserId(), 'open-app')
             });
 
-            this.addIntentHandler('personal_income_tax.inquiry', () => {
-                let loc = this.getSlot('location');
-                let monthlySalary = this.getSlot('monthlysalary');
-
-                if (!monthlySalary) {
-                    this.nlu.ask('monthlySalary');
-                    //  let card = new Bot.Card.TextCard('你工资多少呢');
-
-                    //  如果有异步操作，可以返回一个promise
-                    return new Promise(function (resolve, reject) {
-                        resolve({
-                            directives: [this.getTemplate1('你工资多少呢')],
-                            outputSpeech: '你工资多少呢'
-                        });
-                    });
-                }
-
-                if (!loc) {
-                    //  let card = new Bot.Card.TextCard('你在哪呢');
-                    this.nlu.ask('location');
-                    return {
-                        directives: [this.getTemplate1('你在哪呢')],
-                        outputSpeech: '你在哪呢'
-                    };
-
-                }
+            this.addIntentHandler('ai.dueros.common.default_intent', () => {
+                return chatbot.replyToText(request.getUserId(), request.getQuery())
             });
+
+            this.addSessionEndedHandler(() => {
+                return chatbot.replyToEvent(request.getUserId(), 'close-app')
+            })
     }
     /**
      *  获取文本展现模板
