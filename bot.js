@@ -1,5 +1,6 @@
 const BaseBot = require('bot-sdk');
 const chatbot = require('./chatbot');
+const Request = require('bot-sdk/lib/Request')
 
 class Bot extends BaseBot {
     /**
