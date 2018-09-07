@@ -11,6 +11,7 @@ function concatReplies(replies) {
     for(var i = 0; i < replies.length; i++) {
         result += replies[i];
     }
+    console.log('reply: ' + result)
     return result;
 }
 
@@ -28,11 +29,13 @@ function asyncPost(data) {
 
 function replyToText(userId, text, userContext) {
     var data = { query : { query : text, confidence : 1.0 }, session : userId, agent : agent, userContext:userContext };
+    console.log('user : ' + userId + ', query: ' + text)
     return asyncPost(data)
 }
 
 function replyToEvent(userId, eventType,userContext) {
     var data = { event : { name : eventType }, session : userId, agent : agent, userContext:userContext };
+    console.log('user : ' + userId + ', event: ' + eventType)
     return asyncPost(data)
 }
 
