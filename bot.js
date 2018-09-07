@@ -9,7 +9,7 @@ class Bot extends BaseBot {
     constructor(postData) {
             super(postData);
 
-            const request = new BaseBot.Request(postData)
+            const request = new Request(postData)
             const user_id = 'dueros_' + request.getUserId()
 
             this.addLaunchHandler(() => {
