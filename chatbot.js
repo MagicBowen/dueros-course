@@ -21,6 +21,7 @@ function asyncPost(data) {
         if (!error && res.statusCode == 200) {
           resolve({outputSpeech : concatReplies(body.reply)});
         } else {
+          console.log(error)
           reject(error);
         }
       });
@@ -39,7 +40,7 @@ function replyToEvent(userId, eventType,userContext) {
     return asyncPost(data)
 }
 
-module.exports={
+module.exports = {
     replyToText,
     replyToEvent
 }
