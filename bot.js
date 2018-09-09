@@ -21,6 +21,7 @@ class Bot extends BaseBot {
         });
 
         this.addSessionEndedHandler(() => {
+            this.endDialog()
             return chatbot.replyToEvent(user_id, 'close-app')
         })
     }
