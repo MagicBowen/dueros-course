@@ -24,6 +24,7 @@ class Bot extends BaseBot {
         
         this.addSessionEndedHandler(() => {
             this.setExpectSpeech(false)
+            this.endDialog()
             return chatbot.replyToEvent(user_id, 'close-app')
         })
     }
