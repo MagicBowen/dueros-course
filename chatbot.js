@@ -1,7 +1,7 @@
 request = require('request-json');
 config = require("./config")
 
-var client = request.createClient('http://' + config.chatbot_url)
+var client = request.createClient(config.chatbot_url)
 
 console.log("connect to chatbot dm client:" + config.chatbot_url)
 
