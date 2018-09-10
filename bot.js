@@ -34,8 +34,9 @@ class Bot extends BaseBot {
             this.setExpectSpeech(false)
             this.endDialog()            
         }
+        let that = this
         return {
-            directives: [this.getTemplate1(result)],
+            directives: [that.getTemplate1(result)],
             outputSpeech: result            
         }
     }
