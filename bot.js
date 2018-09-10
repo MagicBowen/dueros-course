@@ -29,11 +29,14 @@ class Bot extends BaseBot {
     buildResponse(intent, result) {
         if (intent.indexOf('close-app') != -1) {
             this.setExpectSpeech(false)
-            this.endDialog()            
+            this.endDialog()
+            return {
+                outputSpeech: result
+            }
         }
         return {
             directives: [this.getTemplate1(result)],
-            outputSpeech: result            
+            outputSpeech: result
         }
     }
     
