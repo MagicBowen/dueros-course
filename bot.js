@@ -14,19 +14,30 @@ class Bot extends BaseBot {
 
         this.addLaunchHandler(() => {
             this.waitAnswer()
-            return chatbot.replyToEvent(user_id, 'open-app')
+            return chatbot.replyToEvent(user_id, 'open-app', this.buildResponse)
         });
-        
+
         this.addIntentHandler('ai.dueros.common.default_intent', () => {
             this.waitAnswer()
-            return chatbot.replyToText(user_id, request.getQuery())
+            return chatbot.replyToText(user_id, request.getQuery(), this.buildResponse)
         });
         
         this.addSessionEndedHandler(() => {
             this.setExpectSpeech(false)
             this.endDialog()
-            return chatbot.replyToEvent(user_id, 'close-app')
+            return chatbot.replyToEvent(user_id, 'close-app', this.buildResponse)
         })
+    }
+
+    buildResponse(intent, result) {
+        if (intent === 'close-app') {
+            this.setExpectSpeech(false)
+            this.endDialog()            
+        }
+        return {
+            directives: [this.getTemplate1(result)],
+            outputSpeech: result            
+        }
     }
     /**
      *  获取文本展现模板
