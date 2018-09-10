@@ -3,11 +3,8 @@ const chatbot = require('./chatbot');
 const Request = require('bot-sdk/lib/Request')
 
 class Bot extends BaseBot {
-    /**
-     * postData可以不传，由于DuerOS对bot是post请求，sdk默认自动获取
-     */
     constructor(postData) {
-        super(postData);
+        super(postData)
 
         const request = new Request(postData)
         const user_id = 'dueros_' + request.getUserId()
@@ -34,18 +31,12 @@ class Bot extends BaseBot {
             this.setExpectSpeech(false)
             this.endDialog()            
         }
-        let that = this
         return {
-            directives: [that.getTemplate1(result)],
+            directives: [getTemplate1(result)],
             outputSpeech: result            
         }
     }
-    /**
-     *  获取文本展现模板
-     *
-     *  @param {string} text 歌曲详情
-     *  @return {RenderTemplate} 渲染模版
-     */
+    
     getTemplate1(text) {
         let bodyTemplate = new BaseBot.Directive.Display.Template.BodyTemplate1();
         bodyTemplate.setPlainTextContent(text);
