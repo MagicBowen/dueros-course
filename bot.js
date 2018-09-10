@@ -27,7 +27,7 @@ class Bot extends BaseBot {
     }
 
     buildResponse(intent, result) {
-        if (intent.index('close-app') != -1) {
+        if (intent.indexOf('close-app') != -1) {
             console.log('enter close app')
             this.setExpectSpeech(false)
             this.endDialog()            
