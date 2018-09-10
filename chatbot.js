@@ -15,11 +15,11 @@ function concatReplies(replies) {
     return result;
 }
 
-function asyncPost(data, callback) {
+function asyncPost(data, dueros) {
     return new Promise(function (resolve, reject) {
         client.post('query', data, function (error, res, body) {
         if (!error && res.statusCode == 200) {
-          resolve(callback(body.intents[0].name, concatReplies(body.reply)));
+          resolve(dueros.buildResponse(body.intents[0].name, concatReplies(body.reply)));
         } else {
           console.log(error)
           reject(error);
@@ -28,16 +28,16 @@ function asyncPost(data, callback) {
     });
   }
 
-function replyToText(userId, text, userContext, callback) {
+function replyToText(userId, text, userContext, dueros) {
     var data = { query : { query : text, confidence : 1.0 }, session : userId, agent : agent, userContext:userContext };
     console.log('user : ' + userId + ', query: ' + text)
-    return asyncPost(data, callback)
+    return asyncPost(data, dueros)
 }
 
-function replyToEvent(userId, eventType, userContext, callback) {
+function replyToEvent(userId, eventType, userContext, dueros) {
     var data = { event : { name : eventType }, session : userId, agent : agent, userContext:userContext };
     console.log('user : ' + userId + ', event: ' + eventType)
-    return asyncPost(data, callback)
+    return asyncPost(data, dueros)
 }
 
 module.exports = {

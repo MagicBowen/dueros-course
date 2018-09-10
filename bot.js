@@ -11,18 +11,18 @@ class Bot extends BaseBot {
 
         this.addLaunchHandler(() => {
             this.waitAnswer()
-            return chatbot.replyToEvent(user_id, 'open-app', null, this.buildResponse)
+            return chatbot.replyToEvent(user_id, 'open-app', null, this)
         });
 
         this.addIntentHandler('ai.dueros.common.default_intent', () => {
             this.waitAnswer()
-            return chatbot.replyToText(user_id, request.getQuery(), null, this.buildResponse)
+            return chatbot.replyToText(user_id, request.getQuery(), null, this)
         });
         
         this.addSessionEndedHandler(() => {
             this.setExpectSpeech(false)
             this.endDialog()
-            return chatbot.replyToEvent(user_id, 'close-app', null, this.buildResponse)
+            return chatbot.replyToEvent(user_id, 'close-app', null, this)
         })
     }
 
@@ -31,7 +31,6 @@ class Bot extends BaseBot {
             this.setExpectSpeech(false)
             this.endDialog()            
         }
-        console.log(this)
         return {
             directives: [this.getTemplate1(result)],
             outputSpeech: result            
