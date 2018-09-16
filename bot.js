@@ -35,7 +35,7 @@ class Bot extends BaseBot {
             }
         }
         return {
-            directives: [this.getTextTemplateWithBg(result)],
+            directives: [this.getTextTeplate(result)],
             outputSpeech: result
         }
     }
