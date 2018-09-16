@@ -42,6 +42,8 @@ class Bot extends BaseBot {
     
     getTemplate1(text) {
         let bodyTemplate = new BaseBot.Directive.Display.Template.BodyTemplate1();
+        bodyTemplate.setBackGroundImage('https://skillstore.cdn.bcebos.com/icon/100/c709eed1-c07a-be4a-b242-0b0d8b777041.jpg');
+        bodyTemplate.setTitle('课程表');
         bodyTemplate.setPlainTextContent(text);
         let renderTemplate = new BaseBot.Directive.Display.RenderTemplate(bodyTemplate);
         return renderTemplate;
