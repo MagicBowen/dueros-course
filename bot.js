@@ -35,7 +35,7 @@ class Bot extends BaseBot {
             }
         }
         return {
-            directives: [this.getTextTeplate(result)],
+            directives: [this.getTemplateWithoutCourse(result)],
             outputSpeech: result
         }
     }
@@ -46,6 +46,25 @@ class Bot extends BaseBot {
         bodyTemplate.setPlainTextContent(text);
         let renderTemplate = new BaseBot.Directive.Display.RenderTemplate(bodyTemplate);
         return renderTemplate;
+    }
+
+    getTextTemplateWithBg(text) {
+        let bodyTemplate = new BaseBot.Directive.Display.Template.BodyTemplate1();
+        bodyTemplate.setTitle('课程表');
+        bodyTemplate.setPlainTextContent(text);
+        bodyTemplate.setBackGroundImage('');
+        let renderTemplate = new BaseBot.Directive.Display.RenderTemplate(bodyTemplate);
+        return renderTemplate;  
+    }
+
+    getTemplateWithoutCourse(text) {
+        let bodyTemplate = new BaseBot.Directive.Display.Template.BodyTemplate3();
+        bodyTemplate.setTitle('课程表');
+        bodyTemplate.setPlainTextContent(text);
+        bodyTemplate.setImage('https://skillstore.cdn.bcebos.com/icon/100/c709eed1-c07a-be4a-b242-0b0d8b777041.jpg', '200', '200');
+        // bodyTemplate.setBackGroundImage('');
+        let renderTemplate = new BaseBot.Directive.Display.RenderTemplate(bodyTemplate);
+        return renderTemplate;        
     }
 }
 
