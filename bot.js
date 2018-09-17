@@ -98,7 +98,7 @@ class Bot extends BaseBot {
         let bodyTemplate = new BaseBot.Directive.Display.Template.BodyTemplate3();
         bodyTemplate.setTitle('课程表');
         bodyTemplate.setPlainContent(text);
-        bodyTemplate.setImage(image, '70', '50');
+        bodyTemplate.setImage(image);
         bodyTemplate.setBackGroundImage(config.wechat_url + '/image/course1.jpg');
         let renderTemplate = new BaseBot.Directive.Display.RenderTemplate(bodyTemplate);
         return renderTemplate;        
