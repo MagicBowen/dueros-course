@@ -13,18 +13,18 @@ class Bot extends BaseBot {
 
         this.addLaunchHandler(() => {
             this.waitAnswer()
-            return chatbot.replyToEvent(user_id, 'open-app').then()
+            return chatbot.replyToEvent(user_id, 'open-app').then(this.buildResponse)
         });
 
         this.addIntentHandler('ai.dueros.common.default_intent', () => {
             this.waitAnswer()
-            return chatbot.replyToText(user_id, request.getQuery()).then()
+            return chatbot.replyToText(user_id, request.getQuery()).then(this.buildResponse)
         });
         
         this.addSessionEndedHandler(() => {
             this.setExpectSpeech(false)
             this.endDialog()
-            return chatbot.replyToEvent(user_id, 'close-app').then()
+            return chatbot.replyToEvent(user_id, 'close-app').then(this.buildResponse)
         })
     }
 
