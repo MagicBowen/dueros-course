@@ -1,5 +1,7 @@
-const BaseBot = require('bot-sdk');
-const chatbot = require('./chatbot');
+const BaseBot = require('bot-sdk')
+const chatbot = require('./chatbot')
+const config = require('./config')
+const request = require('request')
 const Request = require('bot-sdk/lib/Request')
 
 class Bot extends BaseBot {
@@ -11,32 +13,48 @@ class Bot extends BaseBot {
 
         this.addLaunchHandler(() => {
             this.waitAnswer()
-            return chatbot.replyToEvent(user_id, 'open-app', null, this)
+            return chatbot.replyToEvent(user_id, 'open-app').then()
         });
 
         this.addIntentHandler('ai.dueros.common.default_intent', () => {
             this.waitAnswer()
-            return chatbot.replyToText(user_id, request.getQuery(), null, this)
+            return chatbot.replyToText(user_id, request.getQuery()).then()
         });
         
         this.addSessionEndedHandler(() => {
             this.setExpectSpeech(false)
             this.endDialog()
-            return chatbot.replyToEvent(user_id, 'close-app', null, this)
+            return chatbot.replyToEvent(user_id, 'close-app').then()
         })
     }
 
-    buildResponse(intent, result) {
-        if (intent.indexOf('close-app') != -1) {
+    getQrcodeImageUrl(userId) {
+        return new Promise( (resolve, reject) => { 
+            request( { method : 'GET'
+                     , uri : config.wechat_url + `/qrcode?scene=${userId}&source=dueros`
+                     }, (err, res, body) => {
+                        if (!err && res.statusCode == 200) {
+                            resolve(config.wechat_url + body.url);
+                          } else {
+                            reject(err);
+                          }
+                     }
+                )
+            } 
+        );
+    }
+
+    buildResponse(result) {
+        if (result.intent.indexOf('close-app') != -1) {
             this.setExpectSpeech(false)
             this.endDialog()
             return {
-                outputSpeech: result
+                outputSpeech: result.reply
             }
         }
         return {
-            directives: [this.getTextTeplate(result)],
-            outputSpeech: result
+            directives: [this.getTextTeplate(result.reply)],
+            outputSpeech: result.reply
         }
     }
     
@@ -57,12 +75,11 @@ class Bot extends BaseBot {
         return renderTemplate;  
     }
 
-    getTemplateWithoutCourse(text) {
+    getTemplateWithoutCourse(text, image) {
         let bodyTemplate = new BaseBot.Directive.Display.Template.BodyTemplate3();
         bodyTemplate.setTitle('课程表');
         bodyTemplate.setPlainContent(text);
-        bodyTemplate.setImage('https://skillstore.cdn.bcebos.com/icon/100/c709eed1-c07a-be4a-b242-0b0d8b777041.jpg', '200', '200');
-        // bodyTemplate.setBackGroundImage('');
+        bodyTemplate.setImage(image, '200', '200');
         let renderTemplate = new BaseBot.Directive.Display.RenderTemplate(bodyTemplate);
         return renderTemplate;        
     }

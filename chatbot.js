@@ -19,7 +19,7 @@ function asyncPost(data, dueros) {
     return new Promise(function (resolve, reject) {
         client.post('query', data, function (error, res, body) {
         if (!error && res.statusCode == 200) {
-          resolve(dueros.buildResponse(body.intents[0].name, concatReplies(body.reply)));
+          resolve({intent : body.intents[0].name, reply : concatReplies(body.reply)});
         } else {
           console.log(error)
           reject(error);
