@@ -1,5 +1,6 @@
-request = require('request-json');
-config = require("./config")
+const request = require('request-json');
+const config = require("./config")
+const date = require('./date')
 
 var client = request.createClient(config.chatbot_url)
 
@@ -30,13 +31,13 @@ function asyncPost(data, dueros) {
 
 function replyToText(userId, text, userContext, dueros) {
     var data = { query : { query : text, confidence : 1.0 }, session : userId, agent : agent, userContext:userContext };
-    console.log('user : ' + userId + ', query: ' + text)
+    console.log(date.getCurrentTime() + ' : user : ' + userId + ', query: ' + text)
     return asyncPost(data, dueros)
 }
 
 function replyToEvent(userId, eventType, userContext, dueros) {
     var data = { event : { name : eventType }, session : userId, agent : agent, userContext:userContext };
-    console.log('user : ' + userId + ', event: ' + eventType)
+    console.log(date.getCurrentTime() + ' : user : ' + userId + ', event: ' + eventType)
     return asyncPost(data, dueros)
 }
 
