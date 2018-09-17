@@ -24,7 +24,11 @@ class Bot extends BaseBot {
         this.addSessionEndedHandler(() => {
             this.setExpectSpeech(false)
             this.endDialog()
-            return chatbot.replyToEvent(user_id, 'close-app').then(this.buildResponse)
+            return chatbot.replyToEvent(user_id, 'close-app')
+                          .then(this.buildResponse)
+                          .catch((error) => {
+                              console.log('Error occurred: ' + error)
+                          })
         })
     }
 
@@ -45,17 +49,19 @@ class Bot extends BaseBot {
     }
 
     buildResponse(result) {
-        if (result.intent.indexOf('close-app') != -1) {
-            this.setExpectSpeech(false)
-            this.endDialog()
-            return {
-                outputSpeech: result.reply
+        return new Promise( (resolve, reject) => {
+            if (result.intent.indexOf('close-app') != -1) {
+                this.setExpectSpeech(false)
+                this.endDialog()
+                resolve({
+                    outputSpeech: result.reply
+                })
             }
-        }
-        return {
-            directives: [this.getTextTeplate(result.reply)],
-            outputSpeech: result.reply
-        }
+            resolve({
+                directives: [this.getTextTeplate(result.reply)],
+                outputSpeech: result.reply
+            })
+        });
     }
     
     getTextTeplate(text) {
