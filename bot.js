@@ -13,8 +13,9 @@ class Bot extends BaseBot {
 
         this.addLaunchHandler(() => {
             this.waitAnswer()
+            var that = this
             return chatbot.replyToEvent(user_id, 'open-app')
-                          .then(this.buildResponse)
+                          .then((result) => { that.buildResponse(result) })
                           .catch((error) => {
                             console.log('Error occurred: ' + error + ', ' + error.stack)
                         })
@@ -22,8 +23,9 @@ class Bot extends BaseBot {
 
         this.addIntentHandler('ai.dueros.common.default_intent', () => {
             this.waitAnswer()
+            var that = this
             return chatbot.replyToText(user_id, request.getQuery())
-                          .then(this.buildResponse)
+                          .then((result) => { that.buildResponse(result) })
                           .catch((error) => {
                             console.log('Error occurred: ' + error)
                         })
@@ -32,8 +34,9 @@ class Bot extends BaseBot {
         this.addSessionEndedHandler(() => {
             this.setExpectSpeech(false)
             this.endDialog()
+            var that = this
             return chatbot.replyToEvent(user_id, 'close-app')
-                          .then(this.buildResponse)
+                          .then((result) => { that.buildResponse(result) })
                           .catch((error) => {
                               console.log('Error occurred: ' + error)
                           })
