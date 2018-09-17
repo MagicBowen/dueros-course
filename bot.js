@@ -65,33 +65,33 @@ class Bot extends BaseBot {
     }
 
     buildResponse(result) {
+        console.log('intent : ' + result.intent)
         if (result.intent.indexOf('close-app') != -1) {
             this.setExpectSpeech(false)
             this.endDialog()
             return {outputSpeech: result.reply}
         }
+        if ((result.intent.indexOf('how-to-record') != -1) ||
+            (result.intent.indexOf('unknown-intent') != -1)) {
+                let reply = '使用微信扫描二维码，通过小程序录课更方便哦'
+                return {
+                    directives: [this.getTemplateWithoutCourse(reply, result.image)],
+                    outputSpeech: reply
+                }
+        }
         return {
-            directives: [this.getTemplateWithoutCourse(result.reply, result.image)],
+            directives: [this.getTextTeplate(result.reply)],
             outputSpeech: result.reply
         }
     }
     
-    getTextTeplate(text, image) {
+    getTextTeplate(text) {
         let bodyTemplate = new BaseBot.Directive.Display.Template.BodyTemplate1();
         bodyTemplate.setTitle('课程表');
         bodyTemplate.setPlainTextContent(text);
         bodyTemplate.setBackGroundImage(config.wechat_url + '/image/course1.jpg');
         let renderTemplate = new BaseBot.Directive.Display.RenderTemplate(bodyTemplate);
         return renderTemplate;
-    }
-
-    getTextTemplateWithBg(text, image) {
-        let bodyTemplate = new BaseBot.Directive.Display.Template.BodyTemplate1();
-        bodyTemplate.setTitle('课程表');
-        bodyTemplate.setPlainTextContent(text);
-        bodyTemplate.setBackGroundImage(config.wechat_url + '/image/course1.jpg');
-        let renderTemplate = new BaseBot.Directive.Display.RenderTemplate(bodyTemplate);
-        return renderTemplate;  
     }
 
     getTemplateWithoutCourse(text, image) {
