@@ -77,8 +77,8 @@ class Bot extends BaseBot {
                 outputSpeech: reply
             }
         }
-        if ((result.reply.indexOf('还没有录入课程') != -1) || (result.reply.indexOf('还不知道您') != -1)) {
-            let reply = result.reply + '或者使用微信扫描二维码，打开小程序录课更方便'
+        if ((result.reply.indexOf('还没有录入课程') != -1) || (result.reply.indexOf('课表还没有录好') != -1)) {
+            let reply = result.reply + '，或者使用微信扫描二维码，打开小程序录课更方便'
             return {
                 directives: [this.getTemplateWithoutCourse(reply, result.image)],
                 outputSpeech: reply
