@@ -72,8 +72,8 @@ class Bot extends BaseBot {
             return {outputSpeech: result.reply}
         }
         if ((result.intent.indexOf('how-to-record') != -1) ||
-            (result.intent.indexOf('unknown-intent') != -1)) {
-                let reply = '使用微信扫描二维码，通过小程序录课更方便哦'
+            (result.intent.indexOf('unknown') != -1)) {
+                let reply = '微信扫描二维码，使用小程序录课更方便哦'
                 return {
                     directives: [this.getTemplateWithoutCourse(reply, result.image)],
                     outputSpeech: reply
@@ -95,7 +95,7 @@ class Bot extends BaseBot {
     }
 
     getTemplateWithoutCourse(text, image) {
-        let bodyTemplate = new BaseBot.Directive.Display.Template.BodyTemplate2();
+        let bodyTemplate = new BaseBot.Directive.Display.Template.BodyTemplate3();
         bodyTemplate.setTitle('课程表');
         bodyTemplate.setPlainContent(text);
         bodyTemplate.setImage(image);
