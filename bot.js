@@ -53,7 +53,10 @@ class Bot extends BaseBot {
                      }, (err, res, body) => {
                         if (!err && res.statusCode == 200) {
                             result.image = config.wechat_url + body.url
-                            console.log(body.url)
+                            console.log(body['url'])
+                            for (let k in body) {
+                                console.log(k + ':' + body[k])
+                            }
                             console.log('get image : ' + result.image)
                             resolve(result);
                           } else {
