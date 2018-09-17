@@ -16,7 +16,7 @@ class Bot extends BaseBot {
             return chatbot.replyToEvent(user_id, 'open-app')
                           .then(this.buildResponse)
                           .catch((error) => {
-                            console.log('Error occurred: ' + error)
+                            console.log('Error occurred: ' + error + ', ' + error.stack)
                         })
         });
 
@@ -58,7 +58,7 @@ class Bot extends BaseBot {
 
     buildResponse(result) {
         if (result.intent.indexOf('close-app') != -1) {
-            // this.setExpectSpeech(false)
+            this.setExpectSpeech(false)
             this.endDialog()
             return {outputSpeech: result.reply}
         }
