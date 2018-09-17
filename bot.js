@@ -15,7 +15,7 @@ class Bot extends BaseBot {
             this.waitAnswer()
             var that = this
             return chatbot.replyToEvent(user_id, 'open-app')
-                          .then((result) => { that.buildResponse(result) })
+                          .then((result) => { return new Promise((resolve, reject) => { resolve(that.buildResponse(result)) }) })
                           .catch((error) => {
                             console.log('Error occurred: ' + error + ', ' + error.stack)
                         })
