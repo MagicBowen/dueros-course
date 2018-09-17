@@ -80,6 +80,7 @@ class Bot extends BaseBot {
         let bodyTemplate = new BaseBot.Directive.Display.Template.BodyTemplate1();
         bodyTemplate.setTitle('课程表');
         bodyTemplate.setPlainTextContent(text);
+        bodyTemplate.setBackGroundImage(config.wechat_url + '/image/course1.jpg');
         let renderTemplate = new BaseBot.Directive.Display.RenderTemplate(bodyTemplate);
         return renderTemplate;
     }
@@ -88,7 +89,7 @@ class Bot extends BaseBot {
         let bodyTemplate = new BaseBot.Directive.Display.Template.BodyTemplate1();
         bodyTemplate.setTitle('课程表');
         bodyTemplate.setPlainTextContent(text);
-        bodyTemplate.setBackGroundImage('');
+        bodyTemplate.setBackGroundImage(config.wechat_url + '/image/course1.jpg');
         let renderTemplate = new BaseBot.Directive.Display.RenderTemplate(bodyTemplate);
         return renderTemplate;  
     }
@@ -98,6 +99,7 @@ class Bot extends BaseBot {
         bodyTemplate.setTitle('课程表');
         bodyTemplate.setPlainContent(text);
         bodyTemplate.setImage(image, '100', '100');
+        bodyTemplate.setBackGroundImage(config.wechat_url + '/image/course1.jpg');
         let renderTemplate = new BaseBot.Directive.Display.RenderTemplate(bodyTemplate);
         return renderTemplate;        
     }
