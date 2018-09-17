@@ -15,7 +15,8 @@ class Bot extends BaseBot {
             this.waitAnswer()
             var that = this
             return chatbot.replyToEvent(user_id, 'open-app')
-                          .then((result) => { return new Promise((resolve, reject) => { resolve(that.buildResponse(result)) }) })
+                          .then((result) => { return that.getQrcodeImageUrl(user_id, result)})
+                          .then((result) => { return new Promise((resolve) => { resolve(that.buildResponse(result)) }) })
                           .catch((error) => {
                             console.log('Error occurred: ' + error + ', ' + error.stack)
                         })
@@ -25,7 +26,8 @@ class Bot extends BaseBot {
             this.waitAnswer()
             var that = this
             return chatbot.replyToText(user_id, request.getQuery())
-                          .then((result) => { return new Promise((resolve, reject) => { resolve(that.buildResponse(result)) }) })
+                          .then((result) => { return that.getQrcodeImageUrl(user_id, result)})
+                          .then((result) => { return new Promise((resolve) => { resolve(that.buildResponse(result)) }) })
                           .catch((error) => {
                             console.log('Error occurred: ' + error)
                         })
@@ -36,20 +38,23 @@ class Bot extends BaseBot {
             this.endDialog()
             var that = this
             return chatbot.replyToEvent(user_id, 'close-app')
-                          .then((result) => { return new Promise((resolve, reject) => { resolve(that.buildResponse(result)) }) })
+                          .then((result) => { return that.getQrcodeImageUrl(user_id, result)})            
+                          .then((result) => { return new Promise((resolve) => { resolve(that.buildResponse(result)) }) })
                           .catch((error) => {
                               console.log('Error occurred: ' + error)
                           })
         })
     }
 
-    getQrcodeImageUrl(userId) {
+    getQrcodeImageUrl(userId, result) {
         return new Promise( (resolve, reject) => { 
             request( { method : 'GET'
                      , uri : config.wechat_url + `/qrcode?scene=${userId}&source=dueros`
                      }, (err, res, body) => {
                         if (!err && res.statusCode == 200) {
-                            resolve(config.wechat_url + body.url);
+                            result.image = config.wechat_url + body.url
+                            console.log('get image : ' + result.image)
+                            resolve(result);
                           } else {
                             reject(err);
                           }
@@ -66,12 +71,12 @@ class Bot extends BaseBot {
             return {outputSpeech: result.reply}
         }
         return {
-            directives: [this.getTextTeplate(result.reply)],
+            directives: [this.getTemplateWithoutCourse(result.reply, result.image)],
             outputSpeech: result.reply
         }
     }
     
-    getTextTeplate(text) {
+    getTextTeplate(text, image) {
         let bodyTemplate = new BaseBot.Directive.Display.Template.BodyTemplate1();
         bodyTemplate.setTitle('课程表');
         bodyTemplate.setPlainTextContent(text);
@@ -79,7 +84,7 @@ class Bot extends BaseBot {
         return renderTemplate;
     }
 
-    getTextTemplateWithBg(text) {
+    getTextTemplateWithBg(text, image) {
         let bodyTemplate = new BaseBot.Directive.Display.Template.BodyTemplate1();
         bodyTemplate.setTitle('课程表');
         bodyTemplate.setPlainTextContent(text);
