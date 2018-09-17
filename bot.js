@@ -52,11 +52,7 @@ class Bot extends BaseBot {
                      , uri : config.wechat_url + `/qrcode?scene=${userId}&source=dueros`
                      }, (err, res, body) => {
                         if (!err && res.statusCode == 200) {
-                            result.image = config.wechat_url + body.url
-                            console.log(body['url'])
-                            for (let k in body) {
-                                console.log(k + ':' + body[k])
-                            }
+                            result.image = config.wechat_url + JSON.parse(body).url
                             console.log('get image : ' + result.image)
                             resolve(result);
                           } else {
