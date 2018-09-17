@@ -70,20 +70,20 @@ class Bot extends BaseBot {
             this.endDialog()
             return {outputSpeech: result.reply}
         }
-        if (result.intent.indexOf('how-to-record') != -1){
-            let reply = '微信扫描二维码，使用小程序录课更方便哦'
-            return {
-                directives: [this.getTemplateWithoutCourse(reply, result.image)],
-                outputSpeech: reply
-            }
-        }
-        if ((result.reply.indexOf('还没有录入课程') != -1) || (result.reply.indexOf('课表还没有录好') != -1)) {
-            let reply = result.reply + '，或者使用微信扫描二维码，打开小程序录课更方便'
-            return {
-                directives: [this.getTemplateWithoutCourse(reply, result.image)],
-                outputSpeech: reply
-            }
-        }
+        // if (result.intent.indexOf('how-to-record') != -1){
+        //     let reply = '微信扫描二维码，使用小程序录课更方便哦。'
+        //     return {
+        //         directives: [this.getTemplateWithoutCourse(reply, result.image)],
+        //         outputSpeech: reply
+        //     }
+        // }
+        // if ((result.reply.indexOf('还没有录入课程') != -1) || (result.reply.indexOf('课表还没有录好') != -1)) {
+        //     let reply = result.reply + '，或者使用微信扫描二维码，打开小程序录课更方便！'
+        //     return {
+        //         directives: [this.getTemplateWithoutCourse(reply, result.image)],
+        //         outputSpeech: reply
+        //     }
+        // }
         return {
             directives: [this.getTextTeplate(result.reply)],
             outputSpeech: result.reply
