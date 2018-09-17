@@ -95,11 +95,11 @@ class Bot extends BaseBot {
     }
 
     getTemplateWithoutCourse(text, image) {
-        let bodyTemplate = new BaseBot.Directive.Display.Template.BodyTemplate3();
+        let bodyTemplate = new BaseBot.Directive.Display.Template.BodyTemplate2();
         bodyTemplate.setTitle('课程表');
         bodyTemplate.setPlainContent(text);
         bodyTemplate.setImage(image);
-        bodyTemplate.setBackGroundImage(config.wechat_url + '/image/course2.jpg');
+        bodyTemplate.setBackGroundImage(config.wechat_url + '/image/course1.jpg');
         let renderTemplate = new BaseBot.Directive.Display.RenderTemplate(bodyTemplate);
         return renderTemplate;        
     }
