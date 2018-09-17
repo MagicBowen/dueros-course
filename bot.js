@@ -25,7 +25,7 @@ class Bot extends BaseBot {
             this.waitAnswer()
             var that = this
             return chatbot.replyToText(user_id, request.getQuery())
-                          .then((result) => { that.buildResponse(result) })
+                          .then((result) => { return new Promise((resolve, reject) => { resolve(that.buildResponse(result)) }) })
                           .catch((error) => {
                             console.log('Error occurred: ' + error)
                         })
@@ -36,7 +36,7 @@ class Bot extends BaseBot {
             this.endDialog()
             var that = this
             return chatbot.replyToEvent(user_id, 'close-app')
-                          .then((result) => { that.buildResponse(result) })
+                          .then((result) => { return new Promise((resolve, reject) => { resolve(that.buildResponse(result)) }) })
                           .catch((error) => {
                               console.log('Error occurred: ' + error)
                           })
