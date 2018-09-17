@@ -13,12 +13,20 @@ class Bot extends BaseBot {
 
         this.addLaunchHandler(() => {
             this.waitAnswer()
-            return chatbot.replyToEvent(user_id, 'open-app').then(this.buildResponse)
+            return chatbot.replyToEvent(user_id, 'open-app')
+                          .then(this.buildResponse)
+                          .catch((error) => {
+                            console.log('Error occurred: ' + error)
+                        })
         });
 
         this.addIntentHandler('ai.dueros.common.default_intent', () => {
             this.waitAnswer()
-            return chatbot.replyToText(user_id, request.getQuery()).then(this.buildResponse)
+            return chatbot.replyToText(user_id, request.getQuery())
+                          .then(this.buildResponse)
+                          .catch((error) => {
+                            console.log('Error occurred: ' + error)
+                        })
         });
         
         this.addSessionEndedHandler(() => {
@@ -49,19 +57,15 @@ class Bot extends BaseBot {
     }
 
     buildResponse(result) {
-        return new Promise( (resolve, reject) => {
-            if (result.intent.indexOf('close-app') != -1) {
-                this.setExpectSpeech(false)
-                this.endDialog()
-                resolve({
-                    outputSpeech: result.reply
-                })
-            }
-            resolve({
-                directives: [this.getTextTeplate(result.reply)],
-                outputSpeech: result.reply
-            })
-        });
+        if (result.intent.indexOf('close-app') != -1) {
+            // this.setExpectSpeech(false)
+            this.endDialog()
+            return {outputSpeech: result.reply}
+        }
+        return {
+            directives: [this.getTextTeplate(result.reply)],
+            outputSpeech: result.reply
+        }
     }
     
     getTextTeplate(text) {
