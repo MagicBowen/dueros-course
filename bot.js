@@ -70,20 +70,20 @@ class Bot extends BaseBot {
             this.endDialog()
             return {outputSpeech: result.reply}
         }
-        // if (result.intent.indexOf('how-to-record') != -1){
-        //     let reply = '使用微信扫描二维码，打开小程序录课更方便！'
-        //     return {
-        //         directives: [this.getTemplateWithoutCourse(reply, result.image)],
-        //         outputSpeech: result.reply
-        //     }
-        // }
-        // if ((result.reply.indexOf('还没有录入课程') != -1) || (result.reply.indexOf('课表还没有录好') != -1)) {
-        //     let reply = '使用微信扫描二维码，打开小程序录课更方便！'
-        //     return {
-        //         directives: [this.getTemplateWithoutCourse(reply, result.image)],
-        //         outputSpeech: result.reply
-        //     }
-        // }
+        if (result.intent.indexOf('how-to-record') != -1){
+            let reply = '使用微信扫描二维码，打开小程序录课更方便！'
+            return {
+                directives: [this.getTemplateWithoutCourse(reply, result.image)],
+                outputSpeech: result.reply
+            }
+        }
+        if ((result.reply.indexOf('还没有录入课程') != -1) || (result.reply.indexOf('课表还没有录好') != -1)) {
+            let reply = '使用微信扫描二维码，打开小程序录课更方便！'
+            return {
+                directives: [this.getTemplateWithoutCourse(reply, result.image)],
+                outputSpeech: result.reply
+            }
+        }
         return {
             directives: [this.getTextTeplate(result.reply)],
             outputSpeech: result.reply
@@ -94,7 +94,7 @@ class Bot extends BaseBot {
         let bodyTemplate = new BaseBot.Directive.Display.Template.BodyTemplate1();
         bodyTemplate.setTitle('课程表');
         bodyTemplate.setPlainTextContent(text);
-        bodyTemplate.setBackGroundImage(config.wechat_url + '/image/course1.jpg');
+        bodyTemplate.setBackGroundImage(config.wechat_url + '/image/course3.jpg');
         let renderTemplate = new BaseBot.Directive.Display.RenderTemplate(bodyTemplate);
         return renderTemplate;
     }
@@ -104,7 +104,7 @@ class Bot extends BaseBot {
         bodyTemplate.setTitle('课程表');
         bodyTemplate.setPlainContent(text);
         bodyTemplate.setImage(image);
-        bodyTemplate.setBackGroundImage(config.wechat_url + '/image/course1.jpg');
+        bodyTemplate.setBackGroundImage(config.wechat_url + '/image/course3.jpg');
         let renderTemplate = new BaseBot.Directive.Display.RenderTemplate(bodyTemplate);
         return renderTemplate;        
     }
