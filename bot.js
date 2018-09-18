@@ -71,14 +71,14 @@ class Bot extends BaseBot {
             return {outputSpeech: result.reply}
         }
         if (result.intent.indexOf('how-to-record') != -1){
-            let reply = '使用微信扫描二维码，打开小程序录课更方便！'
+            let reply = '使用微信扫描二维码，打开小程序，录课更方便！'
             return {
                 directives: [this.getTemplateWithoutCourse(reply, result.image)],
                 outputSpeech: result.reply
             }
         }
         if ((result.reply.indexOf('还没有录入课程') != -1) || (result.reply.indexOf('课表还没有录好') != -1)) {
-            let reply = '使用微信扫描二维码，打开小程序录课更方便！'
+            let reply = '使用微信扫描二维码，打开小程序，录课更方便！'
             return {
                 directives: [this.getTemplateWithoutCourse(reply, result.image)],
                 outputSpeech: result.reply
