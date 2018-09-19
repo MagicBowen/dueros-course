@@ -70,6 +70,13 @@ class Bot extends BaseBot {
             this.endDialog()
             return {outputSpeech: result.reply}
         }
+        if (result.intent.indexOf('哒尔文') != -1){
+            let reply = '使用微信扫描二维码，打开小程序，录课更方便！'
+            return {
+                directives: [this.getTemplateWithoutCourse(reply, result.image)],
+                outputSpeech: result.reply
+            }
+        }
         if (result.intent.indexOf('how-to-record') != -1){
             let reply = '使用微信扫描二维码，打开小程序，录课更方便！'
             return {
