@@ -107,7 +107,7 @@ class Bot extends BaseBot {
     }
 
     getTemplateWithoutCourse(text, image) {
-        let bodyTemplate = new BaseBot.Directive.Display.Template.BodyTemplate1();
+        let bodyTemplate = new BaseBot.Directive.Display.Template.BodyTemplate2();
         bodyTemplate.setTitle('课程表');
         bodyTemplate.setPlainContent(text);
         bodyTemplate.setImage(image, 100, 100);
