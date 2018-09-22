@@ -105,6 +105,7 @@ class Bot extends BaseBot {
 
     shouldRedirectForDisplay(result) {
         if (!this.isSupportDisplay()) return false
+        console.log(JSON.stringify(result))
         return ((result.data)&&(result.data.intent === 'record-course'))
     }
 
