@@ -16,7 +16,7 @@ function concatReplies(replies) {
     return result;
 }
 
-function asyncPost(data, dueros) {
+function asyncPost(data) {
     return new Promise(function (resolve, reject) {
         client.post('query', data, function (error, res, body) {
         if (!error && res.statusCode == 200) {
@@ -29,16 +29,16 @@ function asyncPost(data, dueros) {
     });
   }
 
-function replyToText(userId, text, userContext, dueros) {
+function replyToText(userId, text, userContext) {
     var data = { query : { query : text, confidence : 1.0 }, session : userId, agent : agent, userContext:userContext };
     console.log(date.getCurrentTime() + ' : user : ' + userId + ', query: ' + text)
-    return asyncPost(data, dueros)
+    return asyncPost(data)
 }
 
-function replyToEvent(userId, eventType, userContext, dueros) {
+function replyToEvent(userId, eventType, userContext) {
     var data = { event : { name : eventType }, session : userId, agent : agent, userContext:userContext };
     console.log(date.getCurrentTime() + ' : user : ' + userId + ', event: ' + eventType)
-    return asyncPost(data, dueros)
+    return asyncPost(data)
 }
 
 module.exports = {

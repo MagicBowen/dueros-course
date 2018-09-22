@@ -10,11 +10,16 @@ class Bot extends BaseBot {
 
         const request = new Request(postData)
         const user_id = 'dueros_' + request.getUserId()
+        const user_context = {
+            supportDisplay : this.isSupportDisplay()
+        }
+
+        console.log(JSON.stringify(user_context))
 
         this.addLaunchHandler(() => {
             this.waitAnswer()
             var that = this
-            return chatbot.replyToEvent(user_id, 'open-app')
+            return chatbot.replyToEvent(user_id, 'open-app', user_context)
                           .then((result) => { return that.getQrcodeImageUrl(user_id, result)})
                           .then((result) => { return new Promise((resolve) => { resolve(that.buildResponse(result)) }) })
                           .catch((error) => {
@@ -25,7 +30,7 @@ class Bot extends BaseBot {
         this.addIntentHandler('ai.dueros.common.default_intent', () => {
             this.waitAnswer()
             var that = this
-            return chatbot.replyToText(user_id, request.getQuery())
+            return chatbot.replyToText(user_id, request.getQuery(), user_context)
                           .then((result) => { return that.getQrcodeImageUrl(user_id, result)})
                           .then((result) => { return new Promise((resolve) => { resolve(that.buildResponse(result)) }) })
                           .catch((error) => {
@@ -37,7 +42,7 @@ class Bot extends BaseBot {
             this.setExpectSpeech(false)
             this.endDialog()
             var that = this
-            return chatbot.replyToEvent(user_id, 'close-app')
+            return chatbot.replyToEvent(user_id, 'close-app', user_context)
                           .then((result) => { return that.getQrcodeImageUrl(user_id, result)})            
                           .then((result) => { return new Promise((resolve) => { resolve(that.buildResponse(result)) }) })
                           .catch((error) => {
@@ -70,31 +75,25 @@ class Bot extends BaseBot {
             this.endDialog()
             return {outputSpeech: result.reply}
         }
-        if (result.reply.indexOf('哒尔文') != -1){
+
+        if (this.shouldDisplayQrcode(result)) {
             let reply = '使用微信扫描二维码，打开小程序，录课更方便！'
             return {
                 directives: [this.getTemplateWithoutCourse(reply, result.image)],
                 outputSpeech: result.reply
-            }
+            }            
         }
-        if (result.intent.indexOf('how-to-record') != -1){
-            let reply = '使用微信扫描二维码，打开小程序，录课更方便！'
-            return {
-                directives: [this.getTemplateWithoutCourse(reply, result.image)],
-                outputSpeech: result.reply
-            }
-        }
-        // if ((result.reply.indexOf('还没有录入课程') != -1) || (result.reply.indexOf('课表还没有录好') != -1)) {
-        //     let reply = '使用微信扫描二维码，打开小程序，录课更方便！'
-        //     return {
-        //         directives: [this.getTemplateWithoutCourse(reply, result.image)],
-        //         outputSpeech: result.reply
-        //     }
-        // }
         return {
             directives: [this.getTextTeplate(result.reply)],
             outputSpeech: result.reply
         }
+    }
+
+    shouldDisplayQrcode(result) {
+        return (result.intent.indexOf('how-to-record') != -1) ||
+        (result.reply.indexOf('哒尔文') != -1) ||
+        (result.reply.indexOf('还没有录入课程') != -1) || 
+        (result.reply.indexOf('课表还没有录好') != -1)
     }
     
     getTextTeplate(text) {
