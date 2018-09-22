@@ -75,7 +75,7 @@ class Bot extends BaseBot {
         }
 
         if (this.shouldRedirectForDisplay(result)) {
-            let reply = `推荐您使用微信扫码录入课程。或者直接对我说出您${result.data.time}要上的全部课程名称？`
+            let reply = `推荐您使用微信扫码录入课程。或者直接对我说出您${result.data[0].time}要上的全部课程名称？`
             return {
                 directives: [this.getTemplateWithoutCourse(reply, result.image)],
                 outputSpeech: reply
@@ -105,8 +105,7 @@ class Bot extends BaseBot {
 
     shouldRedirectForDisplay(result) {
         if (!this.isSupportDisplay()) return false
-        console.log(JSON.stringify(result))
-        return ((result.data)&&(result.data.intent === 'record-course'))
+        return ((result.data)&&(result.data[0].intent === 'record-course'))
     }
 
     shouldDisplayQrcode(result) {
