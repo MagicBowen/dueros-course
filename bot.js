@@ -74,11 +74,19 @@ class Bot extends BaseBot {
             return {outputSpeech: result.reply}
         }
 
+        if (this.shouldRedirectForDisplay(result)) {
+            let reply = `推荐您使用微信扫码录入课程。或者直接对我说出您${result.data.time}要上的全部课程名称？`
+            return {
+                directives: [this.getTemplateWithoutCourse(reply, result.image)],
+                outputSpeech: reply
+            }
+        }
+
         if (this.shouldDisplayQrcode(result)) {
             let reply = '使用微信扫描二维码，打开小程序，录课更方便！'
             return {
                 directives: [this.getTemplateWithoutCourse(reply, result.image)],
-                outputSpeech: result.reply
+                outputSpeech: reply
             }            
         }
         return {
@@ -87,11 +95,14 @@ class Bot extends BaseBot {
         }
     }
 
+    shouldRedirectForDisplay(result) {
+        if (!this.isSupportDisplay()) return false
+        return ((result.data)&&(result.data.intent === 'record-course'))
+    }
+
     shouldDisplayQrcode(result) {
-        return (result.intent.indexOf('how-to-record') != -1) ||
-        (result.reply.indexOf('哒尔文') != -1) ||
-        (result.reply.indexOf('还没有录入课程') != -1) || 
-        (result.reply.indexOf('课表还没有录好') != -1)
+        if (!this.isSupportDisplay()) return false
+        return (result.intent.indexOf('how-to-record') != -1) ||(result.reply.indexOf('哒尔文') != -1)
     }
     
     getTextTeplate(text) {

@@ -20,7 +20,7 @@ function asyncPost(data) {
     return new Promise(function (resolve, reject) {
         client.post('query', data, function (error, res, body) {
         if (!error && res.statusCode == 200) {
-          resolve({intent : body.intents[0].name, reply : concatReplies(body.reply)});
+          resolve({intent : body.intents[0].name, reply : concatReplies(body.reply), data : body.data});
         } else {
           console.log(error)
           reject(error);
