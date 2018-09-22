@@ -87,8 +87,16 @@ class Bot extends BaseBot {
             return {
                 directives: [this.getTemplateWithoutCourse(reply, result.image)],
                 outputSpeech: reply
-            }            
+            }         
         }
+
+        if (this.shouldFindDarwin(result)) {
+            return {
+                directives: [this.getTemplateWithoutCourse(result.reply, result.image)],
+                outputSpeech: result.reply
+            }   
+        }
+
         return {
             directives: [this.getTextTeplate(result.reply)],
             outputSpeech: result.reply
@@ -102,7 +110,12 @@ class Bot extends BaseBot {
 
     shouldDisplayQrcode(result) {
         if (!this.isSupportDisplay()) return false
-        return (result.intent.indexOf('how-to-record') != -1) ||(result.reply.indexOf('哒尔文') != -1)
+        return (result.intent.indexOf('how-to-record') != -1)
+    }
+
+    shouldFindDarwin(result) {
+        if (!this.isSupportDisplay()) return false
+        return (result.reply.indexOf('哒尔文') != -1)
     }
     
     getTextTeplate(text) {
