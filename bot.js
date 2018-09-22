@@ -14,8 +14,6 @@ class Bot extends BaseBot {
             supportDisplay : this.isSupportDisplay()
         }
 
-        console.log(JSON.stringify(user_context))
-
         this.addLaunchHandler(() => {
             this.waitAnswer()
             var that = this
