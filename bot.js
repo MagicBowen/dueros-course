@@ -74,16 +74,16 @@ class Bot extends BaseBot {
             return {outputSpeech: result.reply}
         }
 
-        if (this.shouldRedirectForDisplay(result)) {
-            let reply = `推荐您使用微信扫码录入课程。或者直接对我说出您${result.data[0].time}要上的全部课程名称？`
-            return {
-                directives: [this.getTemplateWithoutCourse(reply, result.image)],
-                outputSpeech: reply
-            }
-        }
+        // if (this.shouldRedirectForDisplay(result)) {
+        //     let reply = `推荐您使用微信扫码录入课程。或者直接对我说出您${result.data[0].time}要上的全部课程名称？`
+        //     return {
+        //         directives: [this.getTemplateWithoutCourse(reply, result.image)],
+        //         outputSpeech: reply
+        //     }
+        // }
 
         if (this.shouldDisplayQrcode(result)) {
-            let reply = '使用微信扫描二维码，打开小程序，录课更方便！'
+            let reply = '请使用微信扫描二维码，打开小程序进行课程的录制和修改。'
             return {
                 directives: [this.getTemplateWithoutCourse(reply, result.image)],
                 outputSpeech: reply
@@ -93,8 +93,8 @@ class Bot extends BaseBot {
         if (this.shouldFindDarwin(result)) {
             return {
                 directives: [this.getTemplateWithoutCourse(result.reply, result.image)],
-                outputSpeech: result.reply
-            }   
+                outputSpeech: '请使用微信扫描二维码，打开小程序进行课程的录制和修改。'
+            }
         }
 
         return {
@@ -134,7 +134,7 @@ class Bot extends BaseBot {
         bodyTemplate.setImage(image, 100, 100);
         bodyTemplate.setBackGroundImage(config.background);
         let renderTemplate = new BaseBot.Directive.Display.RenderTemplate(bodyTemplate);
-        return renderTemplate;        
+        return renderTemplate;
     }
 }
 
