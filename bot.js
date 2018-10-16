@@ -87,12 +87,13 @@ class Bot extends BaseBot {
             return {
                 directives: [this.getTemplateWithoutCourse(reply, result.image)],
                 outputSpeech: reply
-            }         
+            }
         }
 
         if (this.shouldFindDarwin(result)) {
+            let reply = '请使用微信扫描二维码，打开小程序进行课程的录制和修改。'
             return {
-                directives: [this.getTemplateWithoutCourse(result.reply, result.image)],
+                directives: [this.getTemplateWithoutCourse(reply, result.image)],
                 outputSpeech: '请使用微信扫描二维码，打开小程序进行课程的录制和修改。'
             }
         }
