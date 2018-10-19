@@ -58,6 +58,7 @@ class Bot extends BaseBot {
 
                     }
                 ]
+                logger.debug('测试列表中')
                 return {
                     directives: [this.getListTemplate(list)],
                     outputSpeech: '列表显示如上，您满意了吗？'
@@ -157,7 +158,7 @@ class Bot extends BaseBot {
             // listItem.setImage('https://skillstore.cdn.bcebos.com/icon/100/c709eed1-c07a-be4a-b242-0b0d8b777041.jpg');
             listItem.setPlainPrimaryText(item.course);  
             listItem.setPlainSecondaryText(item.time);
-            listItem.setPlainTertiaryText(item.teacher + '       ' + item.address);
+            listItem.setPlainTertiaryText('任课老师：' + item.teacher + '，上课地点：' + item.address);
             
             listTemplate.addItem(listItem);
         }
