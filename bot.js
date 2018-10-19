@@ -27,6 +27,7 @@ class Bot extends BaseBot {
 
         this.addIntentHandler('ai.dueros.common.default_intent', () => {
             this.waitAnswer()
+            var that = this
             if (request.getQuery().indexOf('测试列表') != -1) {
                 const list = [
                     {
@@ -60,11 +61,10 @@ class Bot extends BaseBot {
                 ]
                 console.log('测试列表中')
                 return {
-                    directives: [this.getListTemplate(list)],
+                    directives: [that.getListTemplate(list)],
                     outputSpeech: '列表显示如上，您满意了吗？'
                 }
             }            
-            var that = this
             return chatbot.replyToText(user_id, request.getQuery(), user_context)
                           .then((result) => { return that.getQrcodeImageUrl(user_id, result)})
                           .then((result) => { return new Promise((resolve) => { resolve(that.buildResponse(result)) }) })
@@ -162,6 +162,8 @@ class Bot extends BaseBot {
             
             listTemplate.addItem(listItem);
         }
+        console.log(JSON.stringify(list))
+        console.log(JSON.stringify(listTemplate))
         let renderTemplate = new BaseBot.Directive.Display.RenderTemplate(listTemplate);
         return renderTemplate;
     }
