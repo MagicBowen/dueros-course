@@ -58,7 +58,7 @@ class Bot extends BaseBot {
 
                     }
                 ]
-                logger.debug('测试列表中')
+                console.log('测试列表中')
                 return {
                     directives: [this.getListTemplate(list)],
                     outputSpeech: '列表显示如上，您满意了吗？'
