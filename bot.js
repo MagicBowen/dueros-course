@@ -169,7 +169,7 @@ class Bot extends BaseBot {
                 if (item.address) info += ('上课地点：' + item.address)
             }
             if (info !== '') {
-                listItem.setPlainTertiaryText('任课老师：' + item.teacher + '，上课地点：' + item.address);
+                listItem.setPlainTertiaryText(info);
             }
             
             listTemplate.addItem(listItem);
