@@ -155,14 +155,13 @@ class Bot extends BaseBot {
         listTemplate.setBackGroundImage(config.background);
         for (let item of list) {
             let listItem = new BaseBot.Directive.Display.Template.ListTemplateItem();
-            // listItem.setImage('https://skillstore.cdn.bcebos.com/icon/100/c709eed1-c07a-be4a-b242-0b0d8b777041.jpg');
+            listItem.setImage('https://skillstore.cdn.bcebos.com/icon/100/c709eed1-c07a-be4a-b242-0b0d8b777041.jpg');
             listItem.setPlainPrimaryText(item.course);  
             listItem.setPlainSecondaryText(item.time);
             listItem.setPlainTertiaryText('任课老师：' + item.teacher + '，上课地点：' + item.address);
             
             listTemplate.addItem(listItem);
         }
-        console.log(JSON.stringify(list))
         console.log(JSON.stringify(listTemplate))
         let renderTemplate = new BaseBot.Directive.Display.RenderTemplate(listTemplate);
         return renderTemplate;
