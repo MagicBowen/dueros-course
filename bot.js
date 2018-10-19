@@ -31,32 +31,24 @@ class Bot extends BaseBot {
             if (request.getQuery().indexOf('测试列表') != -1) {
                 const list = [
                     {
-                        course : '数学',
-                        time   : '9:00 ~ 10:00',
-                        address: '学二楼3楼304',
+                        name : '数学',
+                        preiod : "上午",
+                        weekday: "星期二",
+                        startTime   : '9:00',
+                        endTime  : '10:00',
+                        location: '学二楼3楼304',
+                        week: 'both',
                         teacher: '杨老师'
                     },
                     {
-                        course : '语文',
-                        time   : '10:00 ~ 11:00',
-                        address: '学二楼3楼304'
-                    },
-                    {
-                        course : '音乐',
-                        time   : '11:00 ~ 12:00'
-                    },
-                    {
-                        course : '外语'
-                    },
-                    {
-                        course : '晚自习'
-                    },
-                    {
-                        course : '芭蕾课',
-                        time   : '9:30 ~ 10:30',
-                        address: '上海市浦东新区金科路长泰广场A座308',
-                        teacher: '雷老师'
-
+                        name : '语文',
+                        preiod : "上午",
+                        weekday: "星期二",
+                        startTime   : '11:00',
+                        endTime  : '12:00',
+                        location: '学二楼3楼304',
+                        week: 'both',
+                        teacher: '杨老师'
                     }
                 ]
                 return {
@@ -148,29 +140,42 @@ class Bot extends BaseBot {
         return renderTemplate;
     }
 
+    getSecondaryTitle(item){
+        if(item.startTime != "" || item.endTime != ""){
+            var startTime = (item.startTime == "") ? "?" : item.startTime
+            var endTime = (item.startTime == "") ? "?" : item.endTime
+            return startTime + "~" + endTime
+        }
+        return item.preiod
+    }
+
+    getThirdTitle(item){
+        let info = ''
+        if (item.teacher) {
+            info += ('任课老师：' + item.teacher)
+            if (item.location) info += ('，上课地点：' + item.location)
+        }
+        else {
+            if (item.location) info += ('上课地点：' + item.location)
+        }
+        return info
+    }
+
     getListTemplate(list) {
         let listTemplate = new BaseBot.Directive.Display.Template.ListTemplate2();
         listTemplate.setTitle('课程表');
         listTemplate.setBackGroundImage(config.background);
         for (let item of list) {
             let listItem = new BaseBot.Directive.Display.Template.ListTemplateItem();
-            // listItem.setImage('https://skillstore.cdn.bcebos.com/icon/100/c709eed1-c07a-be4a-b242-0b0d8b777041.jpg');
-            listItem.setPlainPrimaryText(item.course); 
-            if (item.time) {
-                listItem.setPlainSecondaryText(item.time);
+            listItem.setPlainPrimaryText(item.name); 
+            var secondTitle = getSecondaryTitle(item)
+            var thridTitle = getThirdTitle(item)
+            if (secondTitle !== "") {
+                listItem.setPlainSecondaryText(secondTitle);
             }
-            let info = ''
-            if (item.teacher) {
-                info += ('任课老师：' + item.teacher)
-                if (item.address) info += ('，上课地点：' + item.address)
+            if (thridTitle !== '') {
+                listItem.setPlainTertiaryText(thridTitle);
             }
-            else {
-                if (item.address) info += ('上课地点：' + item.address)
-            }
-            if (info !== '') {
-                listItem.setPlainTertiaryText(info);
-            }
-            
             listTemplate.addItem(listItem);
         }
         let renderTemplate = new BaseBot.Directive.Display.RenderTemplate(listTemplate);
