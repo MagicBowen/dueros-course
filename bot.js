@@ -59,7 +59,6 @@ class Bot extends BaseBot {
 
                     }
                 ]
-                console.log('测试列表中')
                 return {
                     directives: [that.getListTemplate(list)],
                     outputSpeech: '列表显示如上，您满意了吗？'
@@ -174,7 +173,6 @@ class Bot extends BaseBot {
             
             listTemplate.addItem(listItem);
         }
-        console.log(JSON.stringify(listTemplate))
         let renderTemplate = new BaseBot.Directive.Display.RenderTemplate(listTemplate);
         return renderTemplate;
     }
