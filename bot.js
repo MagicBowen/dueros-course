@@ -170,6 +170,7 @@ class Bot extends BaseBot {
             listItem.setPlainPrimaryText(item.name); 
             var secondTitle = this.getSecondaryTitle(item)
             var thridTitle = this.getThirdTitle(item)
+            console.log('secodTitle', secondTitle, 'thridTitle', thridTitle)
             if (secondTitle !== "") {
                 listItem.setPlainSecondaryText(secondTitle);
             }
