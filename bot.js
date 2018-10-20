@@ -172,7 +172,7 @@ class Bot extends BaseBot {
             var thridTitle = this.getThirdTitle(item)
             console.log('secodTitle', secondTitle, 'thridTitle', thridTitle)
             if (secondTitle !== "") {
-                listItem.setPlainSecondaryText(secondTitle);
+                listItem.setPlainSecondaryText("时间格式不对");
             }
             // if (thridTitle !== '') {
             //     listItem.setPlainTertiaryText(thridTitle);
