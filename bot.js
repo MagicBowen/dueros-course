@@ -167,14 +167,20 @@ class Bot extends BaseBot {
         listTemplate.setBackGroundImage(config.background);
         for (let item of list) {
             let listItem = new BaseBot.Directive.Display.Template.ListTemplateItem();
-            listItem.setPlainPrimaryText(item.name); 
-            var secondTitle = this.getSecondaryTitle(item)
-            var thridTitle = this.getThirdTitle(item)
-            console.log('secodTitle', secondTitle, 'thridTitle', thridTitle)
-            if (secondTitle !== "") {
-                console.log('格式不对.......')
-                listItem.setPlainSecondaryText("时间格式不对");
-            }
+            listItem.setToken('token');
+            listItem.setImage('https://skillstore.cdn.bcebos.com/icon/100/c709eed1-c07a-be4a-b242-0b0d8b777041.jpg');
+            listItem.setPlainPrimaryText('一级标题');  
+            listItem.setPlainSecondaryText('二级标题'); 
+            listItem.setPlainTertiaryText('三级标题');
+            
+            // listItem.setPlainPrimaryText(item.name); 
+            // var secondTitle = this.getSecondaryTitle(item)
+            // var thridTitle = this.getThirdTitle(item)
+            // console.log('secodTitle', secondTitle, 'thridTitle', thridTitle)
+            // if (secondTitle !== "") {
+            //     console.log('格式不对.......')
+            //     listItem.setPlainSecondaryText("时间格式不对");
+            // }
             // if (thridTitle !== '') {
             //     listItem.setPlainTertiaryText(thridTitle);
             // }
