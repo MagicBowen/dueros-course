@@ -168,8 +168,8 @@ class Bot extends BaseBot {
         for (let item of list) {
             let listItem = new BaseBot.Directive.Display.Template.ListTemplateItem();
             listItem.setPlainPrimaryText(item.name); 
-            var secondTitle = getSecondaryTitle(item)
-            var thridTitle = getThirdTitle(item)
+            var secondTitle = this.getSecondaryTitle(item)
+            var thridTitle = this.getThirdTitle(item)
             if (secondTitle !== "") {
                 listItem.setPlainSecondaryText(secondTitle);
             }
