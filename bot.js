@@ -162,7 +162,7 @@ class Bot extends BaseBot {
     }
 
     getListTemplate(list) {
-        let listTemplate = new BaseBot.Directive.Display.Template.ListTemplate2();
+        let listTemplate = new BaseBot.Directive.Display.Template.ListTemplate1();
         listTemplate.setTitle('课程表');
         listTemplate.setBackGroundImage(config.background);
         for (let item of list) {
