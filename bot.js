@@ -174,9 +174,9 @@ class Bot extends BaseBot {
             if (secondTitle !== "") {
                 listItem.setPlainSecondaryText(secondTitle);
             }
-            if (thridTitle !== '') {
-                listItem.setPlainTertiaryText(thridTitle);
-            }
+            // if (thridTitle !== '') {
+            //     listItem.setPlainTertiaryText(thridTitle);
+            // }
             listTemplate.addItem(listItem);
         }
         let renderTemplate = new BaseBot.Directive.Display.RenderTemplate(listTemplate);
