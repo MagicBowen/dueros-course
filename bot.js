@@ -162,7 +162,7 @@ class Bot extends BaseBot {
     }
 
     getListTemplate(list) {
-        let listTemplate = new BaseBot.Directive.Display.Template.ListTemplate1();
+        let listTemplate = new BaseBot.Directive.Display.Template.ListTemplate2();
         listTemplate.setTitle('课程表');
         listTemplate.setBackGroundImage(config.background);
         for (let item of list) {
@@ -172,6 +172,7 @@ class Bot extends BaseBot {
             var thridTitle = this.getThirdTitle(item)
             console.log('secodTitle', secondTitle, 'thridTitle', thridTitle)
             if (secondTitle !== "") {
+                console.log('格式不对.......')
                 listItem.setPlainSecondaryText("时间格式不对");
             }
             // if (thridTitle !== '') {
