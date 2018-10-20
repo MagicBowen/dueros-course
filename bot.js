@@ -168,7 +168,7 @@ class Bot extends BaseBot {
         for (let item of list) {
             let listItem = new BaseBot.Directive.Display.Template.ListTemplateItem();
             listItem.setToken('token');
-            listItem.setImage('https://skillstore.cdn.bcebos.com/icon/100/c709eed1-c07a-be4a-b242-0b0d8b777041.jpg');
+            // listItem.setImage('https://skillstore.cdn.bcebos.com/icon/100/c709eed1-c07a-be4a-b242-0b0d8b777041.jpg');
             listItem.setPlainPrimaryText('一级标题');  
             listItem.setPlainSecondaryText('二级标题'); 
             listItem.setPlainTertiaryText('三级标题');
