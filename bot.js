@@ -28,34 +28,34 @@ class Bot extends BaseBot {
         this.addIntentHandler('ai.dueros.common.default_intent', () => {
             this.waitAnswer()
             var that = this
-            if (request.getQuery().indexOf('测试列表') != -1) {
-                const list = [
-                    {
-                        name : '数学',
-                        preiod : "上午",
-                        weekday: "星期二",
-                        startTime   : '9:00',
-                        endTime  : '10:00',
-                        location: '学二楼3楼304',
-                        week: 'both',
-                        teacher: '杨老师'
-                    },
-                    {
-                        name : '语文',
-                        preiod : "上午",
-                        weekday: "星期二",
-                        startTime   : '11:00',
-                        endTime  : '12:00',
-                        location: '学二楼3楼304',
-                        week: 'both',
-                        teacher: '杨老师'
-                    }
-                ]
-                return {
-                    directives: [that.getListTemplate(list)],
-                    outputSpeech: '列表显示如上，您满意了吗？'
-                }
-            }            
+            // if (request.getQuery().indexOf('测试列表') != -1) {
+            //     const list = [
+            //         {
+            //             name : '数学',
+            //             preiod : "上午",
+            //             weekday: "星期二",
+            //             startTime   : '9:00',
+            //             endTime  : '10:00',
+            //             location: '学二楼3楼304',
+            //             week: 'both',
+            //             teacher: '杨老师'
+            //         },
+            //         {
+            //             name : '语文',
+            //             preiod : "上午",
+            //             weekday: "星期二",
+            //             startTime   : '11:00',
+            //             endTime  : '12:00',
+            //             location: '学二楼3楼304',
+            //             week: 'both',
+            //             teacher: '杨老师'
+            //         }
+            //     ]
+            //     return {
+            //         directives: [that.getListTemplate(list)],
+            //         outputSpeech: '列表显示如上，您满意了吗？'
+            //     }
+            // }            
             return chatbot.replyToText(user_id, request.getQuery(), user_context)
                           .then((result) => { return that.getQrcodeImageUrl(user_id, result)})
                           .then((result) => { return new Promise((resolve) => { resolve(that.buildResponse(result)) }) })
@@ -104,6 +104,7 @@ class Bot extends BaseBot {
 
         if (this.shouldDisplayQrcode(result)) {
             let reply = '请使用微信扫描二维码，打开小程序进行课程的录制和修改。'
+            this.setExpectSpeech(false)
             return {
                 directives: [this.getTextTemplateWithImage(reply, result.image)],
                 outputSpeech: reply
