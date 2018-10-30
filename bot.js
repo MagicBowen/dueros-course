@@ -10,9 +10,13 @@ class Bot extends BaseBot {
 
         const request = new Request(postData)
         const user_id = 'dueros_' + request.getUserId()
+        const bot_id = request.getBotId()
         const user_context = {
-            supportDisplay : this.isSupportDisplay()
+            support_display : this.isSupportDisplay(),
+            source          : 'dueros'
         }
+
+        console.log('bot id is ' + bot_id)
 
         this.addLaunchHandler(() => {
             this.waitAnswer()
@@ -28,34 +32,6 @@ class Bot extends BaseBot {
         this.addIntentHandler('ai.dueros.common.default_intent', () => {
             this.waitAnswer()
             var that = this
-            // if (request.getQuery().indexOf('测试列表') != -1) {
-            //     const list = [
-            //         {
-            //             name : '数学',
-            //             preiod : "上午",
-            //             weekday: "星期二",
-            //             startTime   : '9:00',
-            //             endTime  : '10:00',
-            //             location: '学二楼3楼304',
-            //             week: 'both',
-            //             teacher: '杨老师'
-            //         },
-            //         {
-            //             name : '语文',
-            //             preiod : "上午",
-            //             weekday: "星期二",
-            //             startTime   : '11:00',
-            //             endTime  : '12:00',
-            //             location: '学二楼3楼304',
-            //             week: 'both',
-            //             teacher: '杨老师'
-            //         }
-            //     ]
-            //     return {
-            //         directives: [that.getListTemplate(list)],
-            //         outputSpeech: '列表显示如上，您满意了吗？'
-            //     }
-            // }            
             return chatbot.replyToText(user_id, request.getQuery(), user_context)
                           .then((result) => { return that.getQrcodeImageUrl(user_id, result)})
                           .then((result) => { return new Promise((resolve) => { resolve(that.buildResponse(result)) }) })
