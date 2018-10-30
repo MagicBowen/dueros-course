@@ -19,9 +19,9 @@ class Bot extends BaseBot {
         this.agent = AGENT_MAP[bot_id]
         this.title = (this.agent == 'course-record') ? '课程表' : '幸运数字'
         this.background = (this.agent == 'course-record') ? config.background1 : config.background2
-        if (!agent) {
+        if (!this.agent) {
             console.log('bot id does not register agent: ' + bot_id)
-            agent = 'indentifyCode'
+            this.agent = 'indentifyCode'
         }
         const user_context = {
             support_display : this.isSupportDisplay(),
