@@ -4,6 +4,11 @@ const config = require('./config')
 const request = require('request')
 const Request = require('bot-sdk/lib/Request')
 
+const AGENT_MAP = {
+    'b1be928e-fce7-01e3-f716-13f843efec30' : 'course-record',
+    '9fd0a166-d25c-c2c6-a4f4-f30825ffa971' : 'indentifyCode'
+}
+
 class Bot extends BaseBot {
     constructor(postData) {
         super(postData)
@@ -11,17 +16,22 @@ class Bot extends BaseBot {
         const request = new Request(postData)
         const user_id = 'dueros_' + request.getUserId()
         const bot_id = request.getBotId()
+        this.agent = AGENT_MAP[bot_id]
+        this.title = (this.agent == 'course-record') ? '课程表' : '幸运数字'
+        this.background = (this.agent == 'course-record') ? config.background1 : config.background2
+        if (!agent) {
+            console.log('bot id does not register agent: ' + bot_id)
+            agent = 'indentifyCode'
+        }
         const user_context = {
             support_display : this.isSupportDisplay(),
             source          : 'dueros'
         }
 
-        console.log('bot id is ' + bot_id)
-
         this.addLaunchHandler(() => {
             this.waitAnswer()
             var that = this
-            return chatbot.replyToEvent(user_id, 'open-app', user_context)
+            return chatbot.replyToEvent(that.agent, user_id, 'open-app', user_context)
                           .then((result) => { return that.getQrcodeImageUrl(user_id, result)})
                           .then((result) => { return new Promise((resolve) => { resolve(that.buildResponse(result)) }) })
                           .catch((error) => {
@@ -32,7 +42,7 @@ class Bot extends BaseBot {
         this.addIntentHandler('ai.dueros.common.default_intent', () => {
             this.waitAnswer()
             var that = this
-            return chatbot.replyToText(user_id, request.getQuery(), user_context)
+            return chatbot.replyToText(that.agent, user_id, request.getQuery(), user_context)
                           .then((result) => { return that.getQrcodeImageUrl(user_id, result)})
                           .then((result) => { return new Promise((resolve) => { resolve(that.buildResponse(result)) }) })
                           .catch((error) => {
@@ -44,7 +54,7 @@ class Bot extends BaseBot {
             this.setExpectSpeech(false)
             this.endDialog()
             var that = this
-            return chatbot.replyToEvent(user_id, 'close-app', user_context)
+            return chatbot.replyToEvent(that.agent, user_id, 'close-app', user_context)
                           .then((result) => { return that.getQrcodeImageUrl(user_id, result)})            
                           .then((result) => { return new Promise((resolve) => { resolve(that.buildResponse(result)) }) })
                           .catch((error) => {
@@ -94,25 +104,25 @@ class Bot extends BaseBot {
     }
 
     shouldDisplayQrcode(result) {
-        if (!this.isSupportDisplay()) return false
+        if (!this.isSupportDisplay() || this.agent != 'course-record') return false
         return ((result.intent.indexOf('how-to-record') != -1)||(result.reply.indexOf('哒尔文') != -1))
     }
 
     getTextTemplate(text) {
         let bodyTemplate = new BaseBot.Directive.Display.Template.BodyTemplate1();
-        bodyTemplate.setTitle('课程表');
+        bodyTemplate.setTitle(this.title);
         bodyTemplate.setPlainTextContent(text);
-        bodyTemplate.setBackGroundImage(config.background);
+        bodyTemplate.setBackGroundImage(this.background);
         let renderTemplate = new BaseBot.Directive.Display.RenderTemplate(bodyTemplate);
         return renderTemplate;
     }
 
     getTextTemplateWithImage(text, image) {
         let bodyTemplate = new BaseBot.Directive.Display.Template.BodyTemplate2();
-        bodyTemplate.setTitle('课程表');
+        bodyTemplate.setTitle(this.title);
         bodyTemplate.setPlainContent(text);
         bodyTemplate.setImage(image, 100, 100);
-        bodyTemplate.setBackGroundImage(config.background);
+        bodyTemplate.setBackGroundImage(this.background);
         let renderTemplate = new BaseBot.Directive.Display.RenderTemplate(bodyTemplate);
         return renderTemplate;
     }
@@ -141,8 +151,8 @@ class Bot extends BaseBot {
     getListTemplate(list) {
         let listTemplate = new BaseBot.Directive.Display.Template.ListTemplate1();
         listTemplate.setToken('token');
-        listTemplate.setTitle('课程表');
-        listTemplate.setBackGroundImage(config.background);
+        listTemplate.setTitle(this.title);
+        listTemplate.setBackGroundImage(this.background);
         for (let item of list) {
             let listItem = new BaseBot.Directive.Display.Template.ListTemplateItem();
             listItem.setToken('token');

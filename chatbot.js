@@ -6,7 +6,6 @@ var client = request.createClient(config.chatbot_url)
 
 console.log("connect to chatbot dm client:" + config.chatbot_url)
 
-const agent = 'course-record';
 function concatReplies(replies) {
     var result = '';
     for(var i = 0; i < replies.length; i++) {
@@ -29,13 +28,13 @@ function asyncPost(data) {
     });
   }
 
-function replyToText(userId, text, userContext) {
+function replyToText(agent, userId, text, userContext) {
     var data = { query : { query : text, confidence : 1.0 }, session : userId, agent : agent, userContext:userContext };
     console.log(date.getCurrentTime() + ' : user : ' + userId + ', query: ' + text)
     return asyncPost(data)
 }
 
-function replyToEvent(userId, eventType, userContext) {
+function replyToEvent(agent, userId, eventType, userContext) {
     var data = { event : { name : eventType }, session : userId, agent : agent, userContext:userContext };
     console.log(date.getCurrentTime() + ' : user : ' + userId + ', event: ' + eventType)
     return asyncPost(data)
