@@ -95,6 +95,7 @@ class Bot extends BaseBot {
     }
 
     isIndicateQuit(result) {
+        if (!result || !result.data) return false
         return result.data.filter((data) => {return data.type === 'quit-skill'}).length > 0
     }
 
