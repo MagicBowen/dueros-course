@@ -9,6 +9,18 @@ const AGENT_MAP = {
     '9fd0a166-d25c-c2c6-a4f4-f30825ffa971' : 'indentifyCode'
 }
 
+function getOpenAppEvent(agent) {
+    return (agent === 'course-record') ? 'open-app' : 'open-skill-' + agent
+}
+
+function getCloseAppEvent(agent) {
+    return (agent === 'course-record') ? 'close-app' : 'quit-skill-' + agent
+}
+
+function getNoResponseEvent(agent) {
+    return (agent === 'course-record') ? 'no-response' : 'no-response-' + agent
+}
+
 class Bot extends BaseBot {
     constructor(postData) {
         super(postData)
@@ -32,7 +44,7 @@ class Bot extends BaseBot {
         this.addLaunchHandler(() => {
             this.waitAnswer()
             var that = this
-            return chatbot.replyToEvent(that.agent, user_id, 'open-app', user_context)
+            return chatbot.replyToEvent(that.agent, user_id, getOpenAppEvent(that.agent), user_context)
                           .then((result) => { return that.getQrcodeImageUrl(user_id, result)})
                           .then((result) => { return new Promise((resolve) => { resolve(that.buildResponse(result)) }) })
                           .catch((error) => {
@@ -55,7 +67,7 @@ class Bot extends BaseBot {
             this.setExpectSpeech(false)
             this.endDialog()
             var that = this
-            return chatbot.replyToEvent(that.agent, user_id, 'close-app', user_context)
+            return chatbot.replyToEvent(that.agent, user_id, getCloseAppEvent(that.agent), user_context)
                           .then((result) => { return that.getQrcodeImageUrl(user_id, result)})            
                           .then((result) => { return new Promise((resolve) => { resolve(that.buildResponse(result)) }) })
                           .catch((error) => {
@@ -82,8 +94,12 @@ class Bot extends BaseBot {
         );
     }
 
+    isIndicateQuit(result) {
+        return result.data.filter((data) => {return data.type === 'quit-skill'}).length > 0
+    }
+
     buildResponse(result) {
-        if (result.intent.indexOf('close-app') != -1) {
+        if ((result.intent.indexOf('close-app') != -1)||this.isIndicateQuit(result)) {
             this.setExpectSpeech(false)
             this.endDialog()
             return {outputSpeech: result.reply}
