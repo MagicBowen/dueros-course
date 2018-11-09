@@ -6,7 +6,20 @@ const Request = require('bot-sdk/lib/Request')
 
 const AGENT_MAP = {
     'b1be928e-fce7-01e3-f716-13f843efec30' : 'course-record',
-    '9fd0a166-d25c-c2c6-a4f4-f30825ffa971' : 'indentifyCode'
+    '9fd0a166-d25c-c2c6-a4f4-f30825ffa971' : 'indentifyCode',
+    'e40ddc35-eed8-5260-a913-4201bbb64674' : 'dictation'
+}
+
+const agent_tille = {
+    "course-record":"课程表",
+    "indentifyCode":"幸运数字", 
+    "dictation":"词语听写"
+}
+
+const agent_backgroud = {
+    "course-record": config.background1,
+    "indentifyCode":config.background2, 
+    "dictation":config.background2
 }
 
 function getOpenAppEvent(agent) {
@@ -29,13 +42,13 @@ class Bot extends BaseBot {
         const user_id = 'dueros_' + request.getUserId()
         const bot_id = request.getBotId()
         this.agent = AGENT_MAP[bot_id]
-        this.title = (this.agent == 'course-record') ? '课程表' : '幸运数字'
-        this.background = (this.agent == 'course-record') ? config.background1 : config.background2
         console.log(`request from bot ${bot_id} of user ${user_id}`)
         if (!this.agent) {
             console.log('bot id does not register agent: ' + bot_id)
             this.agent = 'indentifyCode'
         }
+        this.title = agent_tille[this.agent]
+        this.background = agent_backgroud[this.agent]
         const user_context = {
             support_display : this.isSupportDisplay(),
             source          : 'dueros'
