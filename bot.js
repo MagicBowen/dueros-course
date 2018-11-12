@@ -129,7 +129,7 @@ class Bot extends BaseBot {
         }
 
         return {
-            directives: [this.getTextTemplate(result.reply)],
+            directives: this.getDirectives(result),
             outputSpeech: result.reply
         }
     }
@@ -137,6 +137,26 @@ class Bot extends BaseBot {
     shouldDisplayQrcode(result) {
         if (!this.isSupportDisplay() || this.agent != 'course-record') return false
         return ((result.intent.indexOf('how-to-record') != -1)||(result.reply.indexOf('哒尔文') != -1))
+    }
+
+    getDirectives(result) {
+        let directives = []
+        if (result.reply) {
+            directives.push(this.getTextTemplate(result.reply))
+        }
+        if (result.data) {
+            for (data of result.data) {
+                if (data.type && data.type === 'play-audio' && data['audio-url']) {
+                    directives.push(this.getAudioTemplate(data['audio-url']))
+                }
+            }
+        }
+        return directives
+    }
+
+    getAudioTemplate(url) {
+        const Play = BaseBot.Directive.AudioPlayer.Play
+        return new Play(url, Play.ENQUEUE)
     }
 
     getTextTemplate(text) {
