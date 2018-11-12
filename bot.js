@@ -149,9 +149,12 @@ class Bot extends BaseBot {
             directives.push(this.getTextTemplate(result.reply))
         }
         if (result.data) {
+            const Play = BaseBot.Directive.AudioPlayer.Play
+            let action = Play.REPLACE_ALL
             for (let data of result.data) {
                 if (data.type && data.type === 'play-audio' && data['audio-url']) {
-                    directives.push(this.getAudioTemplate(data['audio-url']))
+                    directives.push(new Play(data['audio-url'], action))
+                    action = Play.ENQUEUE
                 } else if (data.type && data.type === 'text' && data['reply']) {
                     if (result.reply) {
                         result.reply += `。${data.reply}`
@@ -164,7 +167,7 @@ class Bot extends BaseBot {
         return directives
     }
 
-    getAudioTemplate(url) {
+    getAudioTemplate(url, key) {
         const Play = BaseBot.Directive.AudioPlayer.Play
         return new Play(url, Play.REPLACE_ALL)
     }
