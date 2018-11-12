@@ -6,7 +6,8 @@ const Request = require('bot-sdk/lib/Request')
 
 const AGENT_MAP = {
     'b1be928e-fce7-01e3-f716-13f843efec30' : 'course-record',
-    '9fd0a166-d25c-c2c6-a4f4-f30825ffa971' : 'indentifyCode'
+    '9fd0a166-d25c-c2c6-a4f4-f30825ffa971' : 'indentifyCode',
+    'e40ddc35-eed8-5260-a913-4201bbb64674' : 'dictation'
 }
 
 function getOpenAppEvent(agent) {
