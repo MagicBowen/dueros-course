@@ -145,7 +145,7 @@ class Bot extends BaseBot {
             directives.push(this.getTextTemplate(result.reply))
         }
         if (result.data) {
-            for (data of result.data) {
+            for (let data of result.data) {
                 if (data.type && data.type === 'play-audio' && data['audio-url']) {
                     directives.push(this.getAudioTemplate(data['audio-url']))
                 }
