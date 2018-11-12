@@ -150,7 +150,11 @@ class Bot extends BaseBot {
                 if (data.type && data.type === 'play-audio' && data['audio-url']) {
                     directives.push(this.getAudioTemplate(data['audio-url']))
                 } else if (data.type && data.type === 'text' && data['reply']) {
-                    result.reply += `。${data.reply}`
+                    if (result.reply) {
+                        result.reply += `。${data.reply}`
+                    } else {
+                        result.reply = data.reply
+                    }
                 }
             }
         }
