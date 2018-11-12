@@ -129,10 +129,13 @@ class Bot extends BaseBot {
             }
         }
 
-        return {
+        const response = {
             directives: this.getDirectives(result),
             outputSpeech: result.reply
         }
+
+        console.log('response to chatbot : ' + JSON.stringify(response))
+        return response
     }
 
     shouldDisplayQrcode(result) {
@@ -163,7 +166,7 @@ class Bot extends BaseBot {
 
     getAudioTemplate(url) {
         const Play = BaseBot.Directive.AudioPlayer.Play
-        return new Play(url, Play.ENQUEUE)
+        return new Play(url, Play.REPLACE_ALL)
     }
 
     getTextTemplate(text) {
