@@ -153,7 +153,12 @@ class Bot extends BaseBot {
             let action = Play.REPLACE_ALL
             for (let data of result.data) {
                 if (data.type && data.type === 'play-audio' && data['audio-url']) {
-                    directives.push(new Play(data['audio-url'], action))
+                    const audioUrl = data['audio-url']
+                    if(data['audio-url'] === 'http://www.xiaodamp.cn/asst/voice/5s_white_noise.mp3')
+                    {
+                        audioUrl = 'http://xiaoda.ai/audios/audio?name=05'
+                    }
+                    directives.push(new Play(audioUrl, action))
                     action = Play.ENQUEUE
                 } else if (data.type && data.type === 'text' && data['reply']) {
                     if (result.reply) {
