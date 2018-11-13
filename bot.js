@@ -129,52 +129,15 @@ class Bot extends BaseBot {
             }
         }
 
-        const response = {
-            directives: this.getDirectives(result),
+        return {
+            directives: [this.getTextTemplate(result.reply)],
             outputSpeech: result.reply
         }
-
-        console.log('response to chatbot : ' + JSON.stringify(response))
-        return response
     }
 
     shouldDisplayQrcode(result) {
         if (!this.isSupportDisplay() || this.agent != 'course-record') return false
         return ((result.intent.indexOf('how-to-record') != -1)||(result.reply.indexOf('哒尔文') != -1))
-    }
-
-    getDirectives(result) {
-        let directives = []
-        if (result.reply) {
-            directives.push(this.getTextTemplate(result.reply))
-        }
-        if (result.data) {
-            const Play = BaseBot.Directive.AudioPlayer.Play
-            let action = Play.REPLACE_ALL
-            for (let data of result.data) {
-                if (data.type && data.type === 'play-audio' && data['audio-url']) {
-                    let audioUrl = data['audio-url']
-                    if(data['audio-url'] === 'http://www.xiaodamp.cn/asst/voice/5s_white_noise.mp3')
-                    {
-                        audioUrl = 'http://xiaoda.ai/audios/audio?name=05'
-                    }
-                    directives.push(new Play(audioUrl, action))
-                    action = Play.REPLACE_ENQUEUED
-                } else if (data.type && data.type === 'text' && data['reply']) {
-                    if (result.reply) {
-                        result.reply += `。${data.reply}`
-                    } else {
-                        result.reply = data.reply
-                    }
-                }
-            }
-        }
-        return directives
-    }
-
-    getAudioTemplate(url, key) {
-        const Play = BaseBot.Directive.AudioPlayer.Play
-        return new Play(url, Play.REPLACE_ALL)
     }
 
     getTextTemplate(text) {
@@ -229,18 +192,6 @@ class Bot extends BaseBot {
             listItem.setPlainPrimaryText('一级标题');  
             listItem.setPlainSecondaryText('二级标题'); 
             listItem.setPlainTertiaryText('三级标题');
-            
-            // listItem.setPlainPrimaryText(item.name); 
-            // var secondTitle = this.getSecondaryTitle(item)
-            // var thridTitle = this.getThirdTitle(item)
-            // console.log('secodTitle', secondTitle, 'thridTitle', thridTitle)
-            // if (secondTitle !== "") {
-            //     console.log('格式不对.......')
-            //     listItem.setPlainSecondaryText("时间格式不对");
-            // }
-            // if (thridTitle !== '') {
-            //     listItem.setPlainTertiaryText(thridTitle);
-            // }
             listTemplate.addItem(listItem);
         }
         let renderTemplate = new BaseBot.Directive.Display.RenderTemplate(listTemplate);
