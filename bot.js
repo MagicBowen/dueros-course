@@ -153,7 +153,7 @@ class Bot extends BaseBot {
             let action = Play.REPLACE_ALL
             for (let data of result.data) {
                 if (data.type && data.type === 'play-audio' && data['audio-url']) {
-                    const audioUrl = data['audio-url']
+                    let audioUrl = data['audio-url']
                     if(data['audio-url'] === 'http://www.xiaodamp.cn/asst/voice/5s_white_noise.mp3')
                     {
                         audioUrl = 'http://xiaoda.ai/audios/audio?name=05'
