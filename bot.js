@@ -159,7 +159,7 @@ class Bot extends BaseBot {
                         audioUrl = 'http://xiaoda.ai/audios/audio?name=05'
                     }
                     directives.push(new Play(audioUrl, action))
-                    action = Play.ENQUEUE
+                    action = Play.REPLACE_ENQUEUED
                 } else if (data.type && data.type === 'text' && data['reply']) {
                     if (result.reply) {
                         result.reply += `。${data.reply}`
